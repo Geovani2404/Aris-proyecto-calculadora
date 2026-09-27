@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aris | Fractional Ownership en Isla Cortés, Nuevo Altata</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Lucide-like Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#1a4369',
+                            900: '#0f2b46',
+                            950: '#0a1d30',
+                        },
+                        sand: {
+                            50: '#fcfbf9',
+                            100: '#f7f4ef',
+                            200: '#ebd8c3',
+                            300: '#e2d9cc',
+                        },
+                        gold: {
+                            400: '#dfba61',
+                            500: '#d4af37',
+                            600: '#c5a059',
+                            700: '#a38038',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav {
+            background: rgba(10, 29, 48, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fceabb 0%, #d4af37 50%, #a88028 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #c5a059 100%);
+        }
+        .bg-gold-gradient:hover {
+            background: linear-gradient(135deg, #e5be48 0%, #d4af37 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 30px -5px rgba(15, 43, 70, 0.08);
+        }
+        /* Custom range slider styling */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #d4af37;
+            cursor: pointer;
+            border: 2px solid #0f2b46;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-sand-100 font-sans text-navy-900 antialiased selection:bg-gold-500 selection:text-white">
+
+    <!-- Header / Navegación -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-nav border-b border-white/10" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-full bg-gold-500/20 border border-gold-500/50 flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-compass text-gold-500 text-xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-serif text-2xl font-bold tracking-widest text-white uppercase">ARIS</span>
+                        <span class="text-[9px] tracking-[0.25em] text-gold-400 uppercase font-semibold">Isla Cortés</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#concepto" class="text-sm font-medium text-gray-200 hover:text-gold-400 transition-colors">El Concepto</a>
+                    <button onclick="openCalculatorModal()" class="text-sm font-medium text-gold-400 hover:text-gold-300 transition-colors flex items-center gap-1.5 font-bold cursor-pointer">
+                        <i class="fa-solid fa-calculator text-xs"></i> Calculadora
+                    </button>
+                    <a href="#departamentos" class="text-sm font-medium text-gray-200 hover:text-gold-400 transition-colors">Departamentos</a>
+                    <a href="#amenidades" class="text-sm font-medium text-gray-200 hover:text-gold-400 transition-colors">Amenidades</a>
+                    <a href="#galeria" class="text-sm font-medium text-gray-200 hover:text-gold-400 transition-colors">Galería</a>
+                    <a href="#faq" class="text-sm font-medium text-gray-200 hover:text-gold-400 transition-colors">Preguntas</a>
+                </nav>
+
+                <!-- Header CTA Button -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button onclick="openCalculatorModal()" class="bg-gold-gradient text-navy-950 font-bold px-5 py-2.5 rounded-full text-sm shadow-lg hover:shadow-gold-500/20 hover:scale-105 transition-all cursor-pointer">
+                        Cotizar Semanas
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-gold-400 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-navy-950 border-b border-navy-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#concepto" class="block text-gray-300 hover:text-gold-400 py-2 text-base font-medium">El Concepto</a>
+            <button onclick="openCalculatorModal(); document.getElementById('mobile-menu').classList.add('hidden');" class="w-full text-left text-gold-400 hover:text-gold-300 py-2 text-base font-bold flex items-center gap-2">
+                <i class="fa-solid fa-calculator text-sm"></i> Calculadora de Inversión
+            </button>
+            <a href="#departamentos" class="block text-gray-300 hover:text-gold-400 py-2 text-base font-medium">Departamentos</a>
+            <a href="#amenidades" class="block text-gray-300 hover:text-gold-400 py-2 text-base font-medium">Amenidades</a>
+            <a href="#galeria" class="block text-gray-300 hover:text-gold-400 py-2 text-base font-medium">Galería</a>
+            <a href="#faq" class="block text-gray-300 hover:text-gold-400 py-2 text-base font-medium">Preguntas Frecuentes</a>
+            <a href="#contacto" class="block w-full text-center bg-gold-gradient text-navy-950 font-bold py-3 rounded-xl mt-4">
+                Agendar Cita / Informes
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-navy-950">
+        <!-- Background Image with Dark Gradient Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2000&auto=format&fit=crop" 
+                 alt="Resort de lujo en playa Isla Cortés" 
+                 class="w-full h-full object-cover object-center opacity-40 scale-105 transform animate-pulse duration-[10000ms]">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-navy-950/80"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs sm:text-sm font-medium mb-8 backdrop-blur-md">
+                <i class="fa-solid fa-location-dot"></i> Isla Cortés, Nuevo Altata, Sinaloa
+            </div>
+
+            <!-- Headline -->
+            <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-tight mb-6">
+                Tu propiedad de playa desde <span class="gold-gradient-text">$180,000 MXN</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto font-light leading-relaxed mb-10">
+                Co-propiedad vacacional con escrituración real. Elige el número de semanas que deseas disfrutar al año en un departamento exclusivo de <strong>3 recámaras a 200m del mar y alberca privada</strong>.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <button onclick="openCalculatorModal()" class="w-full sm:w-auto bg-gold-gradient text-navy-950 font-extrabold px-8 py-4 rounded-xl text-base shadow-xl hover:shadow-gold-500/30 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 cursor-pointer">
+                    <i class="fa-solid fa-calculator text-lg"></i>
+                    <span>Calcular Mi Inversión Por Semanas</span>
+                </button>
+                <a href="#departamentos" class="w-full sm:w-auto bg-navy-900/80 text-white border border-white/20 hover:border-gold-500/50 font-semibold px-8 py-4 rounded-xl text-base backdrop-blur-md hover:bg-navy-800 transition-all flex items-center justify-center gap-3">
+                    <span>Ver Departamento</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </a>
+            </div>
+
+            <!-- Highlights -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-white/10 text-left">
+                <div class="flex items-center gap-3 text-gray-300">
+                    <i class="fa-solid fa-tag text-gold-400 text-2xl"></i>
+                    <div>
+                        <p class="text-xs text-gray-400">1.ª Semana</p>
+                        <p class="text-sm font-semibold text-white">$180,000 MXN</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 text-gray-300">
+                    <i class="fa-solid fa-layer-group text-gold-400 text-2xl"></i>
+                    <div>
+                        <p class="text-xs text-gray-400">Semana Adicional</p>
+                        <p class="text-sm font-semibold text-white">$150,000 MXN</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 text-gray-300">
+                    <i class="fa-solid fa-umbrella-beach text-gold-400 text-2xl"></i>
+                    <div>
+                        <p class="text-xs text-gray-400">Distancia al Mar</p>
+                        <p class="text-sm font-semibold text-white">200 Metros</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 text-gray-300">
+                    <i class="fa-solid fa-house-lock text-gold-400 text-2xl"></i>
+                    <div>
+                        <p class="text-xs text-gray-400">Distribución</p>
+                        <p class="text-sm font-semibold text-white">3 Cuartos / 2 Baños</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Minimalista Calculadora -->
+    <section id="calculadora" class="py-20 bg-sand-50 relative border-b border-sand-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-gold-600 font-bold text-xs tracking-widest uppercase mb-2 block">Simulador Financiero</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-navy-900 mb-4">Cotiza tus Semanas en Aris</h2>
+            <p class="text-gray-600 text-sm sm:text-base max-w-xl mx-auto mb-8 font-light">
+                Esquema transparente: <strong>$180,000 MXN</strong> la 1.ª semana y <strong>$150,000 MXN</strong> cada semana adicional. Abre la ventana interactiva para calcular al instante.
+            </p>
+            
+            <div class="inline-flex flex-col sm:flex-row items-center justify-center gap-4 bg-white p-3 sm:p-4 rounded-2xl border border-sand-300 shadow-sm">
+                <div class="flex items-center gap-3 px-4 py-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-xs sm:text-sm font-semibold text-navy-900">Cotizador en tiempo real disponible</span>
+                </div>
+                <button onclick="openCalculatorModal()" class="w-full sm:w-auto bg-navy-950 hover:bg-navy-900 text-gold-400 border border-gold-500/30 font-bold px-6 py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow hover:shadow-gold-500/10">
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    <span>Abrir Calculadora en Ventana</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ventana Modal Minimalista de la Calculadora -->
+    <div id="calculator-modal" class="fixed inset-0 z-50 bg-navy-950/80 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-lg shadow-2xl border border-sand-300 overflow-hidden transform transition-all duration-300 scale-95 opacity-0" id="calculator-modal-container">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-5 bg-sand-50 border-b border-sand-200 flex justify-between items-center">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-navy-950 text-gold-400 flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-navy-900 text-lg leading-tight">Calculadora de Semanas</h3>
+                        <p class="text-[11px] text-gray-500">Aris Fractional • Isla Cortés</p>
+                    </div>
+                </div>
+                <button onclick="closeCalculatorModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-navy-900 flex items-center justify-center transition-colors cursor-pointer" title="Cerrar">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Minimalist Form) -->
+            <div class="p-6 sm:p-7 space-y-6">
+                <!-- Counter Stepper Minimalist -->
+                <div class="bg-sand-50 p-5 rounded-2xl border border-sand-200 text-center">
+                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-3">
+                        ¿Cuántas semanas al año deseas?
+                    </span>
+                    
+                    <div class="flex items-center justify-center gap-4">
+                        <button onclick="adjustWeeks(-1)" class="w-11 h-11 rounded-xl bg-white border border-sand-300 text-navy-900 hover:border-gold-500 font-bold text-lg flex items-center justify-center transition-all cursor-pointer shadow-sm active:scale-95">
+                            <i class="fa-solid fa-minus text-xs"></i>
+                        </button>
+                        
+                        <div class="min-w-[120px]">
+                            <div class="font-serif text-3xl font-extrabold text-navy-900" id="modal-weeks-display">
+                                4
+                            </div>
+                            <span class="text-[11px] text-gold-600 font-bold block" id="modal-weeks-unit">Semanas al año</span>
+                        </div>
+
+                        <button onclick="adjustWeeks(1)" class="w-11 h-11 rounded-xl bg-white border border-sand-300 text-navy-900 hover:border-gold-500 font-bold text-lg flex items-center justify-center transition-all cursor-pointer shadow-sm active:scale-95">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Range Bar -->
+                    <div class="mt-4 px-2">
+                        <input type="range" id="modal-slider" min="1" max="26" value="4" step="1" oninput="updateCalculator(this.value)" class="w-full h-2 bg-sand-300 rounded-lg appearance-none cursor-pointer">
+                    </div>
+
+                    <!-- Quick buttons -->
+                    <div class="flex justify-center gap-2 mt-4">
+                        <button onclick="updateCalculator(1)" class="text-xs px-2.5 py-1 rounded-lg border border-sand-300 hover:border-gold-500 text-gray-700 bg-white cursor-pointer font-medium">1 sem</button>
+                        <button onclick="updateCalculator(2)" class="text-xs px-2.5 py-1 rounded-lg border border-sand-300 hover:border-gold-500 text-gray-700 bg-white cursor-pointer font-medium">2 sem</button>
+                        <button onclick="updateCalculator(4)" class="text-xs px-2.5 py-1 rounded-lg border border-sand-300 hover:border-gold-500 text-gray-700 bg-white cursor-pointer font-medium">4 sem</button>
+                        <button onclick="updateCalculator(6)" class="text-xs px-2.5 py-1 rounded-lg border border-sand-300 hover:border-gold-500 text-gray-700 bg-white cursor-pointer font-medium">6 sem</button>
+                        <button onclick="updateCalculator(12)" class="text-xs px-2.5 py-1 rounded-lg border border-sand-300 hover:border-gold-500 text-gray-700 bg-white cursor-pointer font-medium">12 sem</button>
+                    </div>
+                </div>
+
+                <!-- Clean Calculation Breakdown -->
+                <div class="space-y-2.5 text-xs">
+                    <div class="flex justify-between items-center text-gray-600 px-1">
+                        <span>1.ª semana inaugural:</span>
+                        <span class="font-semibold text-navy-900">$180,000 MXN</span>
+                    </div>
+                    <div class="flex justify-between items-center text-gray-600 px-1">
+                        <span>Semanas adicionales (<span id="modal-extra-count">3</span> × $150k):</span>
+                        <span class="font-semibold text-navy-900" id="modal-extra-subtotal">$450,000 MXN</span>
+                    </div>
+                    <div class="flex justify-between items-center text-gray-600 px-1 border-t border-sand-200 pt-2">
+                        <span>Porcentaje legal en escritura:</span>
+                        <span class="font-bold text-gold-600" id="modal-prop-fraction">~7.69% (1/13 de la propiedad)</span>
+                    </div>
+                </div>
+
+                <!-- Total Highlight Box -->
+                <div class="bg-navy-950 text-white p-5 rounded-2xl text-center border border-navy-800 shadow-md">
+                    <span class="text-[11px] uppercase tracking-wider text-gray-400 block mb-1">Inversión Total Estimada</span>
+                    <div class="font-serif text-3xl sm:text-4xl font-bold text-gold-400" id="modal-total-display">
+                        $630,000 MXN
+                    </div>
+                    <span class="text-[10px] text-gray-400 block mt-1">Escrituración ante Notario Público • Heredable</span>
+                </div>
+
+                <!-- WhatsApp Quote Button -->
+                <div class="space-y-2">
+                    <button onclick="sendWhatsAppQuote()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-4 rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow cursor-pointer">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Enviar Cotización por WhatsApp</span>
+                    </button>
+                    <button onclick="closeCalculatorModal()" class="w-full text-center text-xs text-gray-400 hover:text-navy-900 py-1 transition-colors cursor-pointer">
+                        Continuar explorando el proyecto
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Concepto Fractional & Comparativa -->
+    <section id="concepto" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-gold-600 font-semibold text-sm tracking-widest uppercase mb-2 block">Inteligencia Financiera Vacacional</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-navy-900 mb-6">¿Por qué Fractional Ownership con Aris?</h2>
+                <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
+                    Las casas vacacionales de playa pasan desocupadas más del 80% del año generando gastos de mantenimiento completos. Con Aris adquieres exactamente el tiempo que disfrutas.
+                </p>
+            </div>
+
+            <!-- Comparison Table / Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
+                <!-- Tradicional Card -->
+                <div class="bg-gray-50 border border-gray-200 rounded-3xl p-8 relative">
+                    <span class="bg-gray-200 text-gray-700 text-xs font-bold px-3 py-1 rounded-full uppercase">Modelo Tradicional</span>
+                    <h3 class="font-serif text-2xl font-bold text-navy-900 mt-4 mb-4">Comprar el 100% Individual</h3>
+                    <ul class="space-y-4 text-sm text-gray-600">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-xmark text-red-500 text-lg"></i>
+                            <span>Inversión inicial muy alta (+$3,800,000 MXN)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-xmark text-red-500 text-lg"></i>
+                            <span>100% de los gastos fijos de mantenimiento todo el año</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-xmark text-red-500 text-lg"></i>
+                            <span>La propiedad pasa vacía más de 40 semanas al año</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-xmark text-red-500 text-lg"></i>
+                            <span>Tú respondes por reparaciones, limpieza y administración</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Fractional Card -->
+                <div class="bg-navy-950 text-white border-2 border-gold-500 rounded-3xl p-8 relative shadow-2xl">
+                    <span class="bg-gold-gradient text-navy-950 text-xs font-extrabold px-3 py-1 rounded-full uppercase">Modelo Aris Fractional</span>
+                    <h3 class="font-serif text-2xl font-bold text-white mt-4 mb-4">Co-Propiedad por Semanas</h3>
+                    <ul class="space-y-4 text-sm text-gray-300">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-gold-400 text-lg"></i>
+                            <span>Inversión accesible desde <strong>$180,000 MXN</strong></span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-gold-400 text-lg"></i>
+                            <span>Pagas solo la cuota proporcional del mantenimiento</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-gold-400 text-lg"></i>
+                            <span>Escritura pública individual notariada y heredable</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-gold-400 text-lg"></i>
+                            <span>Administración hotelera profesional sin preocupaciones</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 4 Pillars -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-sand-50 p-6 rounded-2xl border border-sand-200">
+                    <i class="fa-solid fa-file-signature text-gold-600 text-3xl mb-4"></i>
+                    <h4 class="font-serif font-bold text-navy-900 text-lg mb-2">Seguridad Jurídica</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed">Escritura notariada que acredita tu porcentaje legal sobre el inmueble en Isla Cortés.</p>
+                </div>
+                <div class="bg-sand-50 p-6 rounded-2xl border border-sand-200">
+                    <i class="fa-solid fa-calendar-days text-gold-600 text-3xl mb-4"></i>
+                    <h4 class="font-serif font-bold text-navy-900 text-lg mb-2">Uso Equitativo</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed">Calendario inteligente rotativo para disfrutar temporadas de verano, días festivos y fines de semana.</p>
+                </div>
+                <div class="bg-sand-50 p-6 rounded-2xl border border-sand-200">
+                    <i class="fa-solid fa-chart-line text-gold-600 text-3xl mb-4"></i>
+                    <h4 class="font-serif font-bold text-navy-900 text-lg mb-2">Plusvalía Costera</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed">Altata / Isla Cortés es la zona turística de mayor expansión y revalorización en Sinaloa.</p>
+                </div>
+                <div class="bg-sand-50 p-6 rounded-2xl border border-sand-200">
+                    <i class="fa-solid fa-house-user text-gold-600 text-3xl mb-4"></i>
+                    <h4 class="font-serif font-bold text-navy-900 text-lg mb-2">Llegar y Disfrutar</h4>
+                    <p class="text-xs text-gray-600 leading-relaxed">Tu departamento estará siempre impecable, climatizado y listo para tu llegada.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Departamentos -->
+    <section id="departamentos" class="py-24 bg-sand-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+                <div>
+                    <span class="text-gold-600 font-semibold text-sm tracking-widest uppercase mb-2 block">Diseño & Espacios</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-navy-900">Tu Residencia en la Playa</h2>
+                </div>
+                <p class="text-gray-600 max-w-md mt-4 md:mt-0 text-sm sm:text-base">
+                    Espacios modernos de 3 recámaras diseñados con acabados náuticos y confort de primera.
+                </p>
+            </div>
+
+            <!-- Apartment Showcase -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Main Image -->
+                <div class="lg:col-span-7">
+                    <div class="relative h-[380px] sm:h-[480px] rounded-3xl overflow-hidden shadow-2xl border border-white">
+                        <img id="dept-main-img" 
+                             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" 
+                             alt="Sala espaciosa departamento Aris" 
+                             class="w-full h-full object-cover transition-all duration-500">
+                        <div class="absolute bottom-6 left-6 right-6 bg-navy-950/85 backdrop-blur-md p-5 rounded-2xl border border-white/10 text-white flex justify-between items-center">
+                            <div>
+                                <h4 class="font-serif text-lg font-bold">Unidad Modelo Isla Cortés</h4>
+                                <p class="text-xs text-gold-400">Totalmente equipado y amueblado</p>
+                            </div>
+                            <span class="bg-gold-500/20 text-gold-400 border border-gold-500/40 text-xs font-semibold px-3 py-1 rounded-full">
+                                3 Recámaras
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Thumbnails -->
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <button onclick="changeDeptImage('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop')" class="h-20 rounded-xl overflow-hidden border-2 border-gold-500 focus:outline-none">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=300&auto=format&fit=crop" class="w-full h-full object-cover" alt="Sala">
+                        </button>
+                        <button onclick="changeDeptImage('https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=1200&auto=format&fit=crop')" class="h-20 rounded-xl overflow-hidden border-2 border-transparent hover:border-gold-500 focus:outline-none">
+                            <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=300&auto=format&fit=crop" class="w-full h-full object-cover" alt="Recámara Principal">
+                        </button>
+                        <button onclick="changeDeptImage('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1200&auto=format&fit=crop')" class="h-20 rounded-xl overflow-hidden border-2 border-transparent hover:border-gold-500 focus:outline-none">
+                            <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=300&auto=format&fit=crop" class="w-full h-full object-cover" alt="Cocina integral">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Features Breakdown -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="p-4 rounded-xl bg-white border border-sand-200 card-shadow flex gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-navy-900 text-gold-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-bed text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900 text-sm">3 Recámaras Confortables</h4>
+                            <p class="text-xs text-gray-600">Habitación principal con baño privado + 2 recámaras secundarias amplias.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-white border border-sand-200 card-shadow flex gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-navy-900 text-gold-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-bath text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900 text-sm">2 Baños Completos</h4>
+                            <p class="text-xs text-gray-600">Acabados de primera calidad, grifería moderna y canceles de cristal.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-white border border-sand-200 card-shadow flex gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-navy-900 text-gold-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-kitchen-set text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900 text-sm">Cocina & Comedor</h4>
+                            <p class="text-xs text-gray-600">Barra de granito, electrodomésticos y vajilla completa lista para cocinar.</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-white border border-sand-200 card-shadow flex gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-navy-900 text-gold-400 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-couch text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy-900 text-sm">Sala y Terraza</h4>
+                            <p class="text-xs text-gray-600">Área de descanso integrada con terraza exterior y vista a amenidades.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <a href="#contacto" class="w-full bg-navy-900 hover:bg-navy-800 text-white font-semibold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-colors text-sm">
+                            <i class="fa-solid fa-file-pdf text-gold-400"></i>
+                            <span>Descargar Ficha Técnica en PDF</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenidades -->
+    <section id="amenidades" class="py-24 bg-navy-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-gold-400 font-semibold text-sm tracking-widest uppercase mb-2 block">Estilo de Vida</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold mb-4">Amenidades Privadas</h2>
+                <p class="text-gray-300 text-base sm:text-lg">
+                    Disfruta del confort de un resort con la intimidad de tu hogar de playa.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-navy-900/60 border border-white/10 rounded-2xl p-8 hover:border-gold-500/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-gold-500/20 text-gold-400 flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-water-ladder"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold mb-3">Alberca Exclusiva</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Piscina privada para residentes con camastros y área de sombra para pasar el día en familia.
+                    </p>
+                </div>
+
+                <div class="bg-navy-900/60 border border-white/10 rounded-2xl p-8 hover:border-gold-500/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-gold-500/20 text-gold-400 flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-umbrella-beach"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold mb-3">Playa a 200 Metros</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Ubicación priviligiada a pasos de la suave arena y el mar calmado de Isla Cortés.
+                    </p>
+                </div>
+
+                <div class="bg-navy-900/60 border border-white/10 rounded-2xl p-8 hover:border-gold-500/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-gold-500/20 text-gold-400 flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold mb-3">Acceso Controlado 24/7</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Seguridad permanente, caseta de vigilancia y estacionamiento privado para co-propietarios.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería -->
+    <section id="galeria" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-gold-600 font-semibold text-sm tracking-widest uppercase mb-2 block">Imágenes del Proyecto</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-navy-900 mb-4">Galería de Fotos</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group relative h-64 rounded-2xl overflow-hidden cursor-pointer shadow-md" onclick="openLightbox('https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200&auto=format&fit=crop', 'Alberca Privada')">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Alberca">
+                </div>
+                <div class="group relative h-64 rounded-2xl overflow-hidden cursor-pointer shadow-md" onclick="openLightbox('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop', 'Sala de Estar')">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Sala">
+                </div>
+                <div class="group relative h-64 rounded-2xl overflow-hidden cursor-pointer shadow-md" onclick="openLightbox('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop', 'Playa a 200 Metros')">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Playa">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Lightbox para Galería -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 bg-navy-950/95 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-3xl hover:text-gold-400 transition-colors">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="max-w-4xl w-full">
+            <img id="lightbox-img" src="" class="w-full h-auto max-h-[80vh] object-contain rounded-2xl shadow-2xl mb-4">
+            <p id="lightbox-caption" class="text-center font-serif text-white text-lg font-semibold"></p>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24 bg-sand-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-navy-900">Preguntas Frecuentes</h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-white rounded-2xl border border-sand-200 card-shadow overflow-hidden">
+                    <button onclick="toggleFaq('faq-1')" class="w-full px-6 py-5 text-left font-serif font-bold text-navy-900 text-lg flex justify-between items-center">
+                        <span>¿Cómo se calcula el precio según las semanas compradas?</span>
+                        <i id="icon-faq-1" class="fa-solid fa-chevron-down text-gold-500 text-sm transition-transform"></i>
+                    </button>
+                    <div id="faq-1" class="hidden px-6 pb-6 text-gray-600 text-sm leading-relaxed border-t border-sand-100 pt-4">
+                        La primera semana tiene un costo preferencial de $180,000 MXN. Si decides adquirir semanas adicionales, cada una tiene un costo reducido de $150,000 MXN. Por ejemplo: 2 semanas equivalen a $330,000 MXN ($180k + $150k).
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-sand-200 card-shadow overflow-hidden">
+                    <button onclick="toggleFaq('faq-2')" class="w-full px-6 py-5 text-left font-serif font-bold text-navy-900 text-lg flex justify-between items-center">
+                        <span>¿Tengo escritura pública de mi fracción?</span>
+                        <i id="icon-faq-2" class="fa-solid fa-chevron-down text-gold-500 text-sm transition-transform"></i>
+                    </button>
+                    <div id="faq-2" class="hidden px-6 pb-6 text-gray-600 text-sm leading-relaxed border-t border-sand-100 pt-4">
+                        Sí, se formaliza ante Notario Público. Adquieres un porcentaje legal del departamento proporcional al número de semanas compradas, lo que te otorga derechos reales para revender o heredar.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto / Formulario -->
+    <section id="contacto" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-navy-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-gold-400 font-bold text-sm uppercase tracking-widest block">Atención Directa</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold">Solicita Tu Asesoría Personalizada</h2>
+                    <p class="text-gray-300 text-sm">
+                        Déjanos tus datos y te enviaremos la disponibilidad de semanas e itinerario para visitar Isla Cortés.
+                    </p>
+                    <div class="space-y-3 text-xs text-gray-300">
+                        <p><i class="fa-solid fa-phone text-gold-400 mr-2"></i> +52 (667) 123-4567</p>
+                        <p><i class="fa-solid fa-location-dot text-gold-400 mr-2"></i> Isla Cortés, Nuevo Altata, Sinaloa</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 bg-navy-900 p-6 sm:p-8 rounded-2xl border border-white/10">
+                    <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 mb-1">Nombre</label>
+                                <input type="text" required placeholder="Tu nombre" class="w-full bg-navy-950 border border-white/20 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 mb-1">Teléfono</label>
+                                <input type="tel" required placeholder="667 000 0000" class="w-full bg-navy-950 border border-white/20 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-400">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Mensaje</label>
+                            <textarea rows="3" placeholder="Me interesa cotizar semanas en Aris..." class="w-full bg-navy-950 border border-white/20 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold-400"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gold-gradient text-navy-950 font-bold py-3.5 rounded-xl text-sm hover:scale-[1.01] transition-transform">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                    <div id="form-success" class="hidden text-center py-6 text-gold-400 font-bold">
+                        ¡Gracias! Te contactaremos a la brevedad.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy-950 text-gray-400 py-8 border-t border-white/10 text-center text-xs">
+        <p>&copy; 2026 Aris Fractional Ownership - Isla Cortés, Nuevo Altata.</p>
+    </footer>
+
+    <!-- Script de Lógica Interactivo -->
+    <script>
+        // Toggle Menú Móvil
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        // Constantes de precios
+        const FIRST_WEEK_PRICE = 180000;
+        const EXTRA_WEEK_PRICE = 150000;
+
+        let currentWeeks = 4;
+
+        // Modal Controls
+        function openCalculatorModal() {
+            const modal = document.getElementById('calculator-modal');
+            const container = document.getElementById('calculator-modal-container');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                container.classList.remove('scale-95', 'opacity-0');
+                container.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeCalculatorModal() {
+            const modal = document.getElementById('calculator-modal');
+            const container = document.getElementById('calculator-modal-container');
+            container.classList.remove('scale-100', 'opacity-100');
+            container.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // Close on clicking outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('calculator-modal');
+            const container = document.getElementById('calculator-modal-container');
+            if (e.target === modal) {
+                closeCalculatorModal();
+            }
+        });
+
+        // Close on Escape key
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeCalculatorModal();
+                closeLightbox();
+            }
+        });
+
+        function adjustWeeks(delta) {
+            let next = currentWeeks + delta;
+            if (next < 1) next = 1;
+            if (next > 26) next = 26;
+            updateCalculator(next);
+        }
+
+        // Función principal de cálculo de inversión
+        function updateCalculator(weeks) {
+            currentWeeks = parseInt(weeks);
+            if (isNaN(currentWeeks) || currentWeeks < 1) currentWeeks = 1;
+
+            // Calcular costo total
+            let extraWeeks = currentWeeks > 1 ? currentWeeks - 1 : 0;
+            let totalInvestment = FIRST_WEEK_PRICE + (extraWeeks * EXTRA_WEEK_PRICE);
+            let extraWeeksSubtotal = extraWeeks * EXTRA_WEEK_PRICE;
+
+            // Porcentaje de propiedad (52 semanas al año)
+            const percentage = ((currentWeeks / 52) * 100).toFixed(2);
+            
+            // Fracción simplificada aproximada
+            let fractionLabel = `${percentage}% (${currentWeeks}/52 de la propiedad)`;
+            if (currentWeeks === 1) fractionLabel = "~1.92% (1/52 de la propiedad)";
+            else if (currentWeeks === 2) fractionLabel = "~3.84% (1/26 de la propiedad)";
+            else if (currentWeeks === 4) fractionLabel = "~7.69% (1/13 de la propiedad)";
+            else if (currentWeeks === 6) fractionLabel = "~11.53% (1/9 aprox)";
+            else if (currentWeeks === 12) fractionLabel = "~23.07% (1/4 aprox)";
+            else if (currentWeeks === 13) fractionLabel = "25% (1/4 de la propiedad)";
+            else if (currentWeeks === 26) fractionLabel = "50% (1/2 de la propiedad)";
+
+            // Actualizar elementos del Modal
+            const modalDisplay = document.getElementById('modal-weeks-display');
+            const modalUnit = document.getElementById('modal-weeks-unit');
+            const modalSlider = document.getElementById('modal-slider');
+            const modalExtraCount = document.getElementById('modal-extra-count');
+            const modalExtraSubtotal = document.getElementById('modal-extra-subtotal');
+            const modalFraction = document.getElementById('modal-prop-fraction');
+            const modalTotal = document.getElementById('modal-total-display');
+
+            if (modalDisplay) modalDisplay.innerText = currentWeeks;
+            if (modalUnit) modalUnit.innerText = currentWeeks === 1 ? 'Semana al año' : 'Semanas al año';
+            if (modalSlider) modalSlider.value = currentWeeks;
+            if (modalExtraCount) modalExtraCount.innerText = extraWeeks;
+            if (modalExtraSubtotal) modalExtraSubtotal.innerText = `$${extraWeeksSubtotal.toLocaleString('es-MX')} MXN`;
+            if (modalFraction) modalFraction.innerText = fractionLabel;
+            if (modalTotal) modalTotal.innerText = `$${totalInvestment.toLocaleString('es-MX')} MXN`;
+        }
+
+        // Generar enlace de WhatsApp con Cotización
+        function sendWhatsAppQuote() {
+            const totalEl = document.getElementById('modal-total-display');
+            const total = totalEl ? totalEl.innerText : '$630,000 MXN';
+            const text = `Hola,%20me%20interesa%20la%20cotización%20de%20Aris%20Isla%20Cortés:%20${currentWeeks}%20Semanas%20de%20Co-Propiedad%20por%20un%20total%20de%20${total}.%20¿Me%20pueden%20dar%20más%20información?`;
+            window.open(`https://wa.me/526671234567?text=${text}`, '_blank');
+        }
+
+        // Cambiar imagen principal
+        function changeDeptImage(src) {
+            document.getElementById('dept-main-img').src = src;
+        }
+
+        // Lightbox
+        function openLightbox(src, caption) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-caption').innerText = caption;
+            document.getElementById('lightbox-modal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        // FAQ Toggle
+        function toggleFaq(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(`icon-${id}`);
+            el.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // Form Submit
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            e.target.classList.add('hidden');
+            document.getElementById('form-success').classList.remove('hidden');
+        }
+
+        // Inicializar al cargar
+        window.onload = function() {
+            updateCalculator(4);
+        };
+    </script>
+</body>
+</html>
